@@ -11,6 +11,14 @@ class Trip extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'origin' => 'array',
+        'destination' => 'array',
+        'driver_location' => 'array',
+        'is_started' => 'boolean',
+        'is_completed' => 'boolean',
+    ];
+
     public function driver()
     {
         return $this->belongsTo(Driver::class);

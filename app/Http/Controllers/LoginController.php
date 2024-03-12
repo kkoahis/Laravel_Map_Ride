@@ -10,7 +10,8 @@ class LoginController extends Controller
     public function submit(Request $request){
         // validate phone number
         $request->validate([
-            'phone' => 'required|numeric|min:10'
+            // digit must at least be 10
+            'phone' => 'required|numeric|min_digits:10'
         ]);
         
         // find or create a user model
@@ -36,8 +37,8 @@ class LoginController extends Controller
     public function verify(Request $request){
         // validate the request
         $request->validate([
-            'phone' => 'required|numeric|min:10',
-            'login_code' => 'required|numeric|between:111111,999999'
+            'phone' => 'required|numeric|digits:10',
+            'login_code' => 'required|numeric|digits:6'
         ]);
 
         // find the user
@@ -47,7 +48,6 @@ class LoginController extends Controller
         // if yes, return a auth token
         if($user){
             $user->update(['login_code' => null]);
-            
             return $user->createToken($request->login_code)->plainTextToken;
         }
 
